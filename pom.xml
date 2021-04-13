@@ -173,6 +173,12 @@
                 <artifactId>bcprov-jdk15to18</artifactId>
                 <version>1.68</version>
             </dependency>
+            <dependency>
+                <groupId>com.huaban</groupId>
+                <artifactId>jieba-analysis</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
