@@ -1,0 +1,16 @@
+/.project
+/**/*/.project
+/**/*/target
+/**/*/.settings
+/**/*/.classpath
+/**/*/.idea
+/.idea
+.settings
+.vscode
+/**/*.iml
+/.editorconfig
+/**/*/.factorypath
+*.DS_Store
+/**/logs/
+target/
+generated
