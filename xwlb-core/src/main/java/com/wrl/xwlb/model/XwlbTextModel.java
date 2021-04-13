@@ -20,4 +20,8 @@ public class XwlbTextModel extends BaseModel {
     return create().selectFrom(table).where(table.ID.eq(id)).fetchOne();
   }
 
+  public List<XwlbTextRecord> getByIdsAndDateRange(List<Long> ids, long startDate, long endDate) {
+    return create().selectFrom(table).where(table.ID.in(ids)).and(table.DATE.between(startDate, endDate)).fetch();
+  }
+
 }

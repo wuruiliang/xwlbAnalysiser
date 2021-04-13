@@ -3,6 +3,7 @@ package com.wrl.xwlb.services;
 import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.huaban.analysis.jieba.SegToken;
 import com.wrl.xwlb.core.BaseTest;
+import com.wrl.xwlb.services.VO.TextVO;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,13 @@ public class XwlbTextServiceTest extends BaseTest {
 
   @Test
   public void testSegment() {
-    List<String> ss = xwlbTextService.segment(xwlbTextService.getXwlbTexts(1617897600000L, 1617984000000L));
+    List<String> ss = xwlbTextService.segment(xwlbTextService.getXwlbTexts(1617379200000L, 1617984000000L));
+    System.out.println(ss.toString());
   }
 
+  @Test
+  public void testGetTextByWord() {
+    List<TextVO> vos = xwlbTextService.getTextByWordAndDateRange("就业", 1617379200000L, 1617984000000L);
+    System.out.println(vos.toString());
+  }
 }
