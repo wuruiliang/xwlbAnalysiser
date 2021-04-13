@@ -19,14 +19,14 @@ while getopts ":fguprdm" opt; do
 		f)
 			echo "\n=========== start flyway  ==========\n"
             cd xwlb-core
-            mvn -P dev config:injectProperties flyway:migrate
+            mvn -P dev flyway:migrate
             cd ..
 			echo "\n=========== end  flyway  ==========\n"
 			;;
 		g)
 			echo "\n============ start codegen ==========\n"
 			cd xwlb-core
-			mvn -P dev config:injectProperties jooq-codegen:generate
+			mvn -P dev jooq-codegen:generate
 			cd ..
 			echo "\n============ end codegen ============\n"
 			;;

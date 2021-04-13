@@ -18,22 +18,24 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+
+        <xwlb.db.url>jdbc:mysql://localhost:3306/xwlb</xwlb.db.url>
+        <xwlb.db.user>root</xwlb.db.user>
+        <xwlb.db.password></xwlb.db.password>
+        <xwlb.db.name>xwlb</xwlb.db.name>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.9.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
-        <dependency>
-            <groupId>com.rabbitmq</groupId>
-            <artifactId>amqp-client</artifactId>
-            <version>5.7.3</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
@@ -89,16 +91,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.yqg.cache</groupId>
-            <artifactId>cache-client</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
@@ -119,17 +111,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <classifier>jdk15</classifier>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.axet</groupId>
-            <artifactId>kaptcha</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.squareup.okhttp</groupId>
             <artifactId>okhttp</artifactId>
         </dependency>
@@ -144,20 +125,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.yqg.notification</groupId>
-            <artifactId>notification-client-spring</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-core</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.netflix.hystrix</groupId>
-            <artifactId>hystrix-yqg-metrics-publisher</artifactId>
-        </dependency>
-
 
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -167,16 +137,6 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15to18</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>fr.opensagres.xdocreport</groupId>
-            <artifactId>fr.opensagres.poi.xwpf.converter.pdf</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>fr.opensagres.xdocreport</groupId>
-            <artifactId>fr.opensagres.poi.xwpf.converter.core</artifactId>
         </dependency>
 
     </dependencies>
@@ -222,8 +182,6 @@
                     </jdbc>
                     <generator>
                         <generate>
-                            <!--							<jpaAnnotations>true</jpaAnnotations>-->
-                            <!--							<jpaVersion>2.2</jpaVersion>-->
                             <validationAnnotations>true</validationAnnotations>
                             <springAnnotations>true</springAnnotations>
                             <daos>true</daos>
