@@ -11,6 +11,7 @@
         <module>xwlb-core</module>
         <module>xwlb-api</module>
         <module>xwlb-scheduler</module>
+        <module>xwlb-admin</module>
     </modules>
 
     <name>xwlbAnalysiser</name>
