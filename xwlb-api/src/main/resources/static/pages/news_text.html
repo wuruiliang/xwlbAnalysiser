@@ -3,7 +3,7 @@
 <div id="box"></div>
 
 <script type="text/javascript">
-    sentRequest("/news/text?" + window.location.search.substring(1), "GET", render)
+    sent_request_sync("/news/text?" + window.location.search.substring(1), "GET", render)
     function render(data) {
         for (let i in data) {
             const box = document.getElementById("box");

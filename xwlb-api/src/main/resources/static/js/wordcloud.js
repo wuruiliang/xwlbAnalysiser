@@ -52,7 +52,7 @@ function _initChart(data) {
 }
 
 function initChart() {
-    sentRequest("/news/keywords?" + window.location.search.substring(1), "GET", _initChart)
+    sent_request_sync("/news/keywords?" + window.location.search.substring(1), "GET", _initChart)
 }
 
 
