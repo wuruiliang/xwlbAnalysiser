@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication(scanBasePackages = "com.wrl.xwlb.controller")
 @Import(CoreConfiguration.class)
-public class AdminApplication {
+public class Application {
   public static void main(String[] args) {
-    SpringApplication.run(AdminApplication.class, args);
+      SpringApplication.run(Application.class, args);
   }
 }

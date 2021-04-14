@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-@SpringBootApplication(scanBasePackages = "com.wrl.xwlb.controller")
+@SpringBootApplication
 @Import(CoreConfiguration.class)
-public class ApiApplication {
+public class Application {
   public static void main(String[] args) {
-      SpringApplication.run(ApiApplication.class, args);
+    SpringApplication.run(Application.class, args);
   }
 }

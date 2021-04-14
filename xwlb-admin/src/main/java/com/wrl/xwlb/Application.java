@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.wrl.xwlb.controller")
 @Import(CoreConfiguration.class)
-public class SchedulerApplication {
+public class Application {
   public static void main(String[] args) {
-    SpringApplication.run(SchedulerApplication.class, args);
+    SpringApplication.run(Application.class, args);
   }
 }
