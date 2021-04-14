@@ -4,6 +4,7 @@ usage() {
 	echo "用法：./start.sh [-options]"
 	echo "其中选项包括："
 	echo "    -f                                           执行dev的flyway操作"
+	echo "    -b                                          执行flyway baseline操作"
 	echo "    -g                                           执行codegen操作"
 	echo "    -f -g                                        执行flyway以及codegen操作"
 }
@@ -14,7 +15,7 @@ usageForRun() {
   echo "\n"
 }
 
-while getopts ":fguprdm" opt; do
+while getopts ":fbg" opt; do
 	case $opt in
 		f)
 			echo "\n=========== start flyway  ==========\n"
@@ -22,6 +23,13 @@ while getopts ":fguprdm" opt; do
             mvn -P dev flyway:migrate
             cd ..
 			echo "\n=========== end  flyway  ==========\n"
+			;;
+	  b)
+	    echo "\n=========== start flyway baseline ==========\n"
+            cd xwlb-core
+            mvn -P dev flyway:baseline flyway:migrate
+            cd ..
+			echo "\n=========== end  flyway baseline ==========\n"
 			;;
 		g)
 			echo "\n============ start codegen ==========\n"
