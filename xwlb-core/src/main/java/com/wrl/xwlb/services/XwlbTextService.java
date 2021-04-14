@@ -87,7 +87,8 @@ public class XwlbTextService {
 
   private List<String> getFilteredWords() {
     return Arrays.asList("今天", "今日", "近日", "累计", "重要", "目前", "一些", "一共", "基本", "一方面",
-        "得以", "总计", "一直", "人们", "新闻联播", "文字版", "文字", "新闻");
+        "得以", "总计", "一直", "人们", "新闻联播", "文字版", "文字", "新闻", "主要", "内容", "以下", "详情",
+        "详细", "全文", "就是", "以及", "同时", "必须", "一个", "一道", "一条");
   }
   private boolean isNumber(String word) {
     return pattern.matcher(word).matches();
