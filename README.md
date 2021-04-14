@@ -9,7 +9,7 @@
       ```
 4. 使用脚本`./start.sh -f -g`初始化数据库
 > 如果使用`xwlbSpider`的时候已经先创建了表请使用`./start.sh -b -g`
-5. 使用`xwlbSpider`爬取数据
+5. 使用`xwlbSpider`爬取需要分析的数据
 
 
 ### Run:

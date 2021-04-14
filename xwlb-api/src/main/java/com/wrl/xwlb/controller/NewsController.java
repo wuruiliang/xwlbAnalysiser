@@ -30,8 +30,12 @@ public class NewsController {
   @RequestMapping("/keywords")
   public String keywords(@RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate){
     ClockUtil.dateStringToLong(startDate, ClockUtil.DATE_FORMAT);
-    Map<String, Integer> result = xwlbTextService.segment(xwlbTextService.getXwlbTexts(ClockUtil.dateStringToLong(startDate, ClockUtil.DATE_FORMAT), ClockUtil.dateStringToLong(endDate, ClockUtil.DATE_FORMAT)));
-    List<Map.Entry<String, Integer>> entryList = result.entrySet().stream().sorted(Comparator.comparingInt(Map.Entry::getValue)).collect(Collectors.toList());
+    Map<String, Integer> result = xwlbTextService.segment(xwlbTextService.getXwlbTexts(
+            ClockUtil.dateStringToLong(startDate, ClockUtil.DATE_FORMAT),
+            ClockUtil.dateStringToLong(endDate, ClockUtil.DATE_FORMAT)));
+    List<Map.Entry<String, Integer>> entryList = result.entrySet().stream()
+        .sorted(Comparator.comparingInt(Map.Entry::getValue))
+        .collect(Collectors.toList());
     Collections.reverse(entryList);
     if (entryList.size() > MAX_KEYWORDS) {
       entryList = entryList.subList(0, MAX_KEYWORDS);
@@ -47,7 +51,10 @@ public class NewsController {
   public String text(@RequestParam(name = "word") String word,
                      @RequestParam(name = "startDate") String startDate,
                      @RequestParam(name = "endDate") String endDate) {
-    List<TextVO> textVOS = xwlbTextService.getTextByWordAndDateRange(StringEscapeUtils.unescapeHtml(word), ClockUtil.dateStringToLong(startDate, ClockUtil.DATE_FORMAT), ClockUtil.dateStringToLong(endDate, ClockUtil.DATE_FORMAT));
+    List<TextVO> textVOS = xwlbTextService.getTextByWordAndDateRange(
+        StringEscapeUtils.unescapeHtml(word),
+        ClockUtil.dateStringToLong(startDate, ClockUtil.DATE_FORMAT),
+        ClockUtil.dateStringToLong(endDate, ClockUtil.DATE_FORMAT));
     return JsonUtil.toString(textVOS);
   }
 }

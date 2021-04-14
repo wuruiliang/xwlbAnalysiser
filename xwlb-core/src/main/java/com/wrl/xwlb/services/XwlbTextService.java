@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -44,8 +43,12 @@ public class XwlbTextService {
     if (wordRecord == null) {
       return new ArrayList<>();
     }
-    List<Long> ids = Arrays.stream(wordRecord.getTextIds().split(",")).map(Long::valueOf).collect(Collectors.toList());
-    return xwlbTextModel.getByIdsAndDateRange(ids, startDate, endDate).stream().map(XwlbTextVO::fromRecord).collect(Collectors.toList());
+    List<Long> ids = Arrays.stream(wordRecord.getTextIds().split(","))
+        .map(Long::valueOf)
+        .collect(Collectors.toList());
+    return xwlbTextModel.getByIdsAndDateRange(ids, startDate, endDate).stream()
+        .map(XwlbTextVO::fromRecord)
+        .collect(Collectors.toList());
   }
 
   public List<TextVO> getTextByWordAndDateRange(String word, long startDate, long endDate) {
@@ -83,7 +86,8 @@ public class XwlbTextService {
   }
 
   private List<String> getFilteredWords() {
-    return Arrays.asList("今日", "近日", "一些", "一共", "基本", "一方面", "得以", "总计", "一直", "人们", "新闻联播", "文字版", "文字", "新闻");
+    return Arrays.asList("今天", "今日", "近日", "累计", "重要", "目前", "一些", "一共", "基本", "一方面",
+        "得以", "总计", "一直", "人们", "新闻联播", "文字版", "文字", "新闻");
   }
   private boolean isNumber(String word) {
     return pattern.matcher(word).matches();
