@@ -6,7 +6,6 @@ import com.wrl.xwlb.model.generated.tables.XwlbWord;
 import com.wrl.xwlb.model.generated.tables.records.XwlbWordRecord;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
