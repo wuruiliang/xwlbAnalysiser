@@ -16,4 +16,4 @@
 `./start.sh -r xwlb-api` 启动web程序
 > 调用`/newsKeywords`接口可展示选择时间内新闻关键字文字云图，点击图中的文字跳转展示具体的新闻内容。
 >
-> 请求格式：`http://localhost:8080/newsKeyWords?startDate=20210402&endDate=20210405`
+> 请求格式：`http://localhost:8080/newsKeywords?startDate=20210402&endDate=20210405`
