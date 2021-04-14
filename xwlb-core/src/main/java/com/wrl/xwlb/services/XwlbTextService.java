@@ -7,11 +7,13 @@ import com.wrl.xwlb.model.XwlbWordModel;
 import com.wrl.xwlb.model.generated.tables.records.XwlbWordRecord;
 import com.wrl.xwlb.services.VO.TextVO;
 import com.wrl.xwlb.services.VO.XwlbTextVO;
+import com.wrl.xwlb.util.ClockUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -54,30 +56,30 @@ public class XwlbTextService {
       StringBuilder t = new StringBuilder();
       for (String text : texts) {
         if (text.contains(word)) {
-          t.append(text).append("\n");
+          t.append(text).append("\n\n");
         }
       }
       if (StringUtils.isNotBlank(t)) {
-        textVOS.add(new TextVO(xwlbTextVO.getDate(), t.toString()));
+        textVOS.add(new TextVO(ClockUtil.dateStringChinese(xwlbTextVO.getDate()), t.toString()));
       }
     }
     return textVOS;
   }
 
-  public List<String> segment(List<XwlbTextVO> xwlbTextVOS) {
-    Set<String> result = new HashSet<>();
+  public Map<String, Integer> segment(List<XwlbTextVO> xwlbTextVOS) {
+    Map<String, Integer> resultMap = new HashMap<>();
     for (XwlbTextVO vo : xwlbTextVOS) {
       List<SegToken> segTokens = jiebaSegmenter.process(vo.getContent(), JiebaSegmenter.SegMode.SEARCH);
-      Set<String> words = segTokens.stream()
+      List<String> words = segTokens.stream()
           .filter(s -> !getFilteredWords().contains(s.word) && isChinese(s.word) && s.word.length() > 1)
           .map(s -> s.word)
-          .collect(Collectors.toSet());
+          .collect(Collectors.toList());
       for (String word : words) {
+        resultMap.merge(word, 1, Integer::sum);
         xwlbWordModel.insertOrUpdate(word, vo.getId());
-        result.add(word);
       }
     }
-    return new ArrayList<>(result);
+    return resultMap;
   }
 
   private List<String> getFilteredWords() {

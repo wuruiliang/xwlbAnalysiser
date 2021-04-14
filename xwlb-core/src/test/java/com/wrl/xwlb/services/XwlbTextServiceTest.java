@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 public class XwlbTextServiceTest extends BaseTest {
 
@@ -23,7 +24,7 @@ public class XwlbTextServiceTest extends BaseTest {
   @Test
   public void testJieba() {
     JiebaSegmenter jiebaSegmenter = new JiebaSegmenter();
-    String[] strings = new String[]{"我今天上海北京去哪里", "天下无敌海上有船", "哈哈哈新闻联播"};
+    String[] strings = new String[]{"我今天上海北京去哪里北京上海", "天下无敌海上有船", "哈哈哈新闻联播"};
     for (String s : strings) {
       List<SegToken> tokens = jiebaSegmenter.process(s, JiebaSegmenter.SegMode.INDEX);
       System.out.println(tokens.toString());
@@ -34,7 +35,7 @@ public class XwlbTextServiceTest extends BaseTest {
 
   @Test
   public void testSegment() {
-    List<String> ss = xwlbTextService.segment(xwlbTextService.getXwlbTexts(1617379200000L, 1617984000000L));
+    Map<String, Integer> ss = xwlbTextService.segment(xwlbTextService.getXwlbTexts(1617379200000L, 1617984000000L));
     System.out.println(ss.toString());
   }
 

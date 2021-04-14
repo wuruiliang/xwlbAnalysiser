@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class TextVO {
-  private Long date;
+  private String date;
   private String text;
 }
