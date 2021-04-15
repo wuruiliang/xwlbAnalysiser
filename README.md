@@ -22,5 +22,8 @@
 > 可定时异步进行分词工作
 
 ### Demo:
-![云图](./pics/demo1.png){:height="50%" width="50%"}
+- 关键字云图：
+![云图](./pics/demo1.png)
+  
+- 详情：
 ![详情](./pics/demo2.png)
