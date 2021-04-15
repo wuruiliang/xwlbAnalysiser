@@ -20,3 +20,7 @@
 
 `./start.sh -r xwlb-scheduler` 启动scheduler程序
 > 可定时异步进行分词工作
+
+### Demo:
+![云图](./pics/demo1.png){:height="50%" width="50%"}
+![详情](./pics/demo2.png)
