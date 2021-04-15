@@ -19,7 +19,7 @@
 > 请求格式：`http://localhost:8080/newsKeywords?startDate=20210402&endDate=20210405`
 
 `./start.sh -r xwlb-scheduler` 启动scheduler程序
-> 可定时异步进行分词工作
+> 可异步进行分词统计、建立索引的工作
 
 ### Demo:
 - 关键字云图：
