@@ -4,6 +4,7 @@ import com.wrl.xwlb.model.core.BaseModel;
 import com.wrl.xwlb.model.generated.Tables;
 import com.wrl.xwlb.model.generated.tables.XwlbWord;
 import com.wrl.xwlb.model.generated.tables.records.XwlbWordRecord;
+import com.wrl.xwlb.util.ClockUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -27,7 +28,7 @@ public class XwlbWordModel extends BaseModel {
     XwlbWordRecord record = create().newRecord(table);
     record.setWord(word);
     record.setTextIds(String.valueOf(textId));
-    long now = System.currentTimeMillis();
+    long now = ClockUtil.now();
     record.setTimeCreated(now);
     record.setTimeUpdated(now);
     record.insert();
@@ -37,7 +38,7 @@ public class XwlbWordModel extends BaseModel {
     List<Long> ids = Arrays.stream(record.getTextIds().split(",")).map(Long::valueOf).collect(Collectors.toList());
     if (!ids.contains(textId)) {
       record.setTextIds(String.format("%s,%s", record.getTextIds(), textId));
-      record.setTimeUpdated(System.currentTimeMillis());
+      record.setTimeUpdated(ClockUtil.now());
       record.update();
     }
   }

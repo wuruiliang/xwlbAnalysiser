@@ -2,6 +2,7 @@ package com.wrl.xwlb.services.VO;
 
 import com.wrl.xwlb.common.exception.CommonException;
 import com.wrl.xwlb.model.generated.tables.records.XwlbTextRecord;
+import com.wrl.xwlb.util.BooleanType;
 import lombok.Data;
 import sun.misc.BASE64Decoder;
 
@@ -16,6 +17,7 @@ public class XwlbTextVO {
   private String content;
   private Long timeCreated;
   private Long timeUpdated;
+  private Boolean segmented;
 
   public static XwlbTextVO fromRecord(XwlbTextRecord record) {
     XwlbTextVO xwlbTextVO = new XwlbTextVO();
@@ -28,6 +30,7 @@ public class XwlbTextVO {
       xwlbTextVO.setContent(new String(decoder.decodeBuffer(record.getContent())));
       xwlbTextVO.setTimeCreated(record.getTimeCreated());
       xwlbTextVO.setTimeUpdated(record.getTimeUpdated());
+      xwlbTextVO.setSegmented(BooleanType.fromCharCode(record.getSegmented()).bool);
     } catch (IOException e) {
       throw CommonException.wrap(e);
     }

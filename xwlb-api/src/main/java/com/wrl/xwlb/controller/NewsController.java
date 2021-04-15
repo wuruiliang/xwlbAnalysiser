@@ -30,9 +30,9 @@ public class NewsController {
   @RequestMapping("/keywords")
   public String keywords(@RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate){
     ClockUtil.dateStringToLong(startDate, ClockUtil.DATE_FORMAT);
-    Map<String, Integer> result = xwlbTextService.segment(xwlbTextService.getXwlbTexts(
-            ClockUtil.dateStringToLong(startDate, ClockUtil.DATE_FORMAT),
-            ClockUtil.dateStringToLong(endDate, ClockUtil.DATE_FORMAT)));
+    Map<String, Integer> result = xwlbTextService.getXwlbKeywords(
+        ClockUtil.dateStringToLong(startDate, ClockUtil.DATE_FORMAT),
+        ClockUtil.dateStringToLong(endDate, ClockUtil.DATE_FORMAT));
     List<Map.Entry<String, Integer>> entryList = result.entrySet().stream()
         .sorted(Comparator.comparingInt(Map.Entry::getValue))
         .collect(Collectors.toList());

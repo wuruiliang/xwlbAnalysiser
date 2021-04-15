@@ -38,6 +38,10 @@ public class XwlbTextService {
     return xwlbTextModel.getByDateRange(startDate, endDate).stream().map(XwlbTextVO::fromRecord).collect(Collectors.toList());
   }
 
+  public Map<String, Integer> getXwlbKeywords(long startDate, long endDate) {
+    return segment(getXwlbTexts(startDate, endDate));
+  }
+
   public List<XwlbTextVO> getXwlbTextByWordAndDateRange(String word, long startDate, long endDate) {
     XwlbWordRecord wordRecord = xwlbWordModel.getByWord(word);
     if (wordRecord == null) {
@@ -79,8 +83,11 @@ public class XwlbTextService {
           .collect(Collectors.toList());
       for (String word : words) {
         resultMap.merge(word, 1, Integer::sum);
-        xwlbWordModel.insertOrUpdate(word, vo.getId());
+        if (!vo.getSegmented()) {
+          xwlbWordModel.insertOrUpdate(word, vo.getId());
+        }
       }
+      xwlbTextModel.updateSegmented(vo.getId(), true);
     }
     return resultMap;
   }
