@@ -40,6 +40,10 @@ public class XwlbTextService {
     return xwlbTextModel.getByDateRange(startDate, endDate).stream().map(XwlbTextVO::fromRecord).collect(Collectors.toList());
   }
 
+  public List<XwlbTextVO> getNotSegementedXwlbTexts(long startDate, long endDate) {
+    return xwlbTextModel.getByDateRange(startDate, endDate, false).stream().map(XwlbTextVO::fromRecord).collect(Collectors.toList());
+  }
+
   public Map<String, Integer> getXwlbKeywords(long startDate, long endDate) {
     return segment(getXwlbTexts(startDate, endDate));
   }

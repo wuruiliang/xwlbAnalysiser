@@ -18,6 +18,13 @@ public class XwlbTextModel extends BaseModel {
     return create().selectFrom(table).where(table.DATE.between(startDate, endDate)).fetch();
   }
 
+  public List<XwlbTextRecord> getByDateRange(long startDate, long endDate, boolean segmented) {
+    return create().selectFrom(table)
+        .where(table.DATE.between(startDate, endDate))
+        .and(table.SEGMENTED.eq(BooleanType.fromBoolean(segmented).charCode))
+        .fetch();
+  }
+
   public XwlbTextRecord getById(long id) {
     return create().selectFrom(table).where(table.ID.eq(id)).fetchOne();
   }

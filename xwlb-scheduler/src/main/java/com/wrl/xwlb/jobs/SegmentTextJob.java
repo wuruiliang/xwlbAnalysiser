@@ -22,13 +22,11 @@ public class SegmentTextJob {
   @Scheduled(cron = "0 0 0/1 * * ?")
   public void execute() {
     logger.info("job segmentText run...");
-    long todayStart = ClockUtil.getMinMillisOfDay(ClockUtil.now());
-    long todayEnd = ClockUtil.getMaxMillisOfDay(ClockUtil.now());
-    List<XwlbTextVO> todayXwlbTextVOS = xwlbTextService.getXwlbTexts(todayStart, todayEnd);
+    long start = ClockUtil.getMinMillisOfDay(ClockUtil.now());
+    long end = ClockUtil.getMaxMillisOfDay(ClockUtil.now());
+    List<XwlbTextVO> todayXwlbTextVOS = xwlbTextService.getNotSegementedXwlbTexts(start, end);
     for (XwlbTextVO vo : todayXwlbTextVOS) {
-      if (!vo.getSegmented()) {
-        xwlbTextService.getXwlbKeywords(todayStart, todayEnd);
-      }
+      xwlbTextService.getXwlbKeywords(ClockUtil.getMinMillisOfDay(vo.getDate()), ClockUtil.getMaxMillisOfDay(vo.getDate()));
     }
     logger.info("job segmentText end run.");
   }
