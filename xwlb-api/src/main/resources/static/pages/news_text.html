@@ -1,18 +1,21 @@
-<html>
+<html lang="zh-CN">
 <script src="../js/send-request.js" charset="UTF-8"></script>
 <div id="box"></div>
 
 <script type="text/javascript">
     sent_request_sync("/news/text?" + window.location.search.substring(1), "GET", render)
     function render(data) {
-        for (let i in data) {
+        for (let d of data) {
             const box = document.getElementById("box");
             const head = document.createElement("header");
-            head.innerText = data[i].date;
+            head.innerHTML = d.date;
             head.style.fontWeight = "bold"
             head.style.fontSize = "25"
             const text = document.createElement("p");
-            text.innerText = data[i].text;
+            let text_string = d.text;
+            const word = d.word;
+            text_string = text_string.replace(/\n/g, '<br/>').replace(new RegExp(word,'g'), '<b>' + word + '</b>');
+            text.innerHTML = text_string;
             box.appendChild(head)
             box.appendChild(text);
             box.appendChild(document.createElement("br"))

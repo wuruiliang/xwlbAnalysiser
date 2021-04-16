@@ -61,13 +61,19 @@ public class XwlbTextService {
     for (XwlbTextVO xwlbTextVO : xwlbTextVOS) {
       List<String> texts = Arrays.stream(xwlbTextVO.getContent().split("\n")).collect(Collectors.toList());
       StringBuilder t = new StringBuilder();
-      for (String text : texts) {
+      for (int i=0; i < texts.size(); i++) {
+        String text = texts.get(i);
         if (text.contains(word)) {
-          t.append(text).append("\n\n");
+          if (!text.endsWith("。") && i + 1 < texts.size()) {
+            t.append(text).append("：\n").append(texts.get(++i));
+          } else {
+            t.append(text);
+          }
+          t.append("\n\n");
         }
       }
       if (StringUtils.isNotBlank(t)) {
-        textVOS.add(new TextVO(ClockUtil.dateStringChinese(xwlbTextVO.getDate()), t.toString()));
+        textVOS.add(new TextVO(word, ClockUtil.dateStringChinese(xwlbTextVO.getDate()), t.toString()));
       }
     }
     return textVOS;
@@ -95,7 +101,8 @@ public class XwlbTextService {
   private List<String> getFilteredWords() {
     return Arrays.asList("今天", "今日", "近日", "累计", "重要", "目前", "一些", "一共", "基本", "一方面",
         "得以", "总计", "一直", "人们", "新闻联播", "文字版", "文字", "新闻", "主要", "内容", "以下", "详情",
-        "详细", "全文", "就是", "以及", "同时", "必须", "一个", "一道", "一条", "表示", "举行", "开展", "截至");
+        "详细", "全文", "就是", "以及", "同时", "必须", "一个", "一道", "一条", "表示", "举行", "开展", "截至",
+        "一起", "不会", "正在", "来到", "达到", "要求", "强调", "重点", "其中", "指出");
   }
   private boolean isNumber(String word) {
     return pattern.matcher(word).matches();
