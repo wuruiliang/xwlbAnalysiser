@@ -1,17 +1,24 @@
 package com.wrl.xwlb.configuration;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
 @Data
-@Component
+@Configuration
 public class MysqlConfig {
 
-  private String url = "jdbc:mysql://localhost:3306/xwlb";
+  @Value("${xwlb.db.url}")
+  private String url;
 
-  private String userName = "root";
+  @Value("${xwlb.db.user}")
+  private String userName;
 
-  private String password = "";
+  @Value("${xwlb.db.password}")
+  private String password;
+
+  @Value("${xwlb.db.name}")
+  private String db;
 
   private int initialSize = 10;
 
@@ -20,4 +27,8 @@ public class MysqlConfig {
   private int maxActive = 10;
 
   private int maxWait = 10;
+
+  public String getFullUrl() {
+    return this.url + "/" + this.db;
+  }
 }

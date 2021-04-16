@@ -22,7 +22,7 @@ public class JooqConfiguration {
   @Bean
   public DataSource dataSource() {
     DruidDataSource dataSource = new DruidDataSource();
-    dataSource.setUrl(dbConfig.getUrl());
+    dataSource.setUrl(dbConfig.getFullUrl());
     dataSource.setUsername(dbConfig.getUserName());
     dataSource.setPassword(dbConfig.getPassword());
     dataSource.setInitialSize(dbConfig.getInitialSize());

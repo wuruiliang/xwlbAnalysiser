@@ -1,0 +1,6 @@
+xwlb:
+  db:
+    url: jdbc:mysql://localhost:3306
+    user: root
+    password:
+    name: xwlb
