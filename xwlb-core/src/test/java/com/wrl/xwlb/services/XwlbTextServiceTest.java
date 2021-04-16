@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -44,4 +45,11 @@ public class XwlbTextServiceTest extends BaseTest {
     List<TextVO> vos = xwlbTextService.getTextByWordAndDateRange("就业", 1617379200000L, 1617984000000L);
     System.out.println(vos.toString());
   }
+
+  @Test
+  public void testGetTextByWordList() {
+    List<TextVO> vos = xwlbTextService.getTextByWordListAndDateRange(Arrays.asList("就业", "疫苗", "建设"), 1617379200000L, 1617984000000L);
+    System.out.println(vos.toString());
+  }
+
 }

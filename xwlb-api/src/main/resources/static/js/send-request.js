@@ -1,3 +1,6 @@
+const status = {
+    SUCCESS: 0
+}
 function sent_request_sync(url, method, callback) {
     let xmlhttp;
     if (window.XMLHttpRequest)
@@ -13,7 +16,12 @@ function sent_request_sync(url, method, callback) {
         if (xmlhttp.readyState===4 && xmlhttp.status===200)
         {
             if (callback) {
-                callback(JSON.parse(xmlhttp.responseText));
+                const data = JSON.parse(xmlhttp.responseText);
+                if (data.status.code !== status.SUCCESS) {
+                    alert(data.status.message);
+                } else {
+                    callback(data.body);
+                }
             }
         }
     }
@@ -36,7 +44,12 @@ function sent_request_async(url, method, callback) {
         if (xmlhttp.readyState===4 && xmlhttp.status===200)
         {
             if (callback) {
-                callback(JSON.parse(xmlhttp.responseText));
+                const data = JSON.parse(xmlhttp.responseText);
+                if (data.status.code !== status.SUCCESS) {
+                    alert(data.status.message);
+                } else {
+                    callback(data.body);
+                }
             }
         }
     }

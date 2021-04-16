@@ -12,6 +12,7 @@ import com.wrl.xwlb.util.ClockUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -57,6 +58,24 @@ public class XwlbTextService {
         .collect(Collectors.toList());
   }
 
+  public List<XwlbTextVO> getXwlbTextByWordListAndDateRange(List<String> wordList, long startDate, long endDate) {
+    List<XwlbWordRecord> wordRecords = xwlbWordModel.getByWordList(wordList);
+    if (CollectionUtils.isEmpty(wordRecords)) {
+      return new ArrayList<>();
+    }
+    List<Long> allIds = new ArrayList<>();
+    for (XwlbWordRecord xwlbWordRecord : wordRecords) {
+      List<Long> ids = Arrays.stream(xwlbWordRecord.getTextIds().split(","))
+          .map(Long::valueOf)
+          .collect(Collectors.toList());
+      allIds.addAll(ids);
+    }
+    return xwlbTextModel.getByIdsAndDateRange(allIds, startDate, endDate).stream()
+        .sorted(Comparator.comparingLong(XwlbTextRecord::getDate).reversed())
+        .map(XwlbTextVO::fromRecord)
+        .collect(Collectors.toList());
+  }
+
   public List<TextVO> getTextByWordAndDateRange(String word, long startDate, long endDate) {
     List<TextVO> textVOS = new ArrayList<>();
     List<XwlbTextVO> xwlbTextVOS = getXwlbTextByWordAndDateRange(word, startDate, endDate);
@@ -76,6 +95,30 @@ public class XwlbTextService {
       }
       if (StringUtils.isNotBlank(t)) {
         textVOS.add(new TextVO(word, ClockUtil.dateStringChinese(xwlbTextVO.getDate()), t.toString()));
+      }
+    }
+    return textVOS;
+  }
+
+  public List<TextVO> getTextByWordListAndDateRange(List<String> wordList, long startDate, long endDate) {
+    List<TextVO> textVOS = new ArrayList<>();
+    List<XwlbTextVO> xwlbTextVOS = getXwlbTextByWordListAndDateRange(wordList, startDate, endDate);
+    for (XwlbTextVO xwlbTextVO : xwlbTextVOS) {
+      List<String> texts = Arrays.stream(xwlbTextVO.getContent().split("\n")).collect(Collectors.toList());
+      StringBuilder t = new StringBuilder();
+      for (int i=0; i < texts.size(); i++) {
+        String text = texts.get(i);
+        if (wordList.stream().anyMatch(text::contains)) {
+          if (!text.endsWith("。") && i + 1 < texts.size()) {
+            t.append(text).append("：\n").append(texts.get(++i));
+          } else {
+            t.append(text);
+          }
+          t.append("\n\n");
+        }
+      }
+      if (StringUtils.isNotBlank(t)) {
+        textVOS.add(new TextVO(String.join(",", wordList), ClockUtil.dateStringChinese(xwlbTextVO.getDate()), t.toString()));
       }
     }
     return textVOS;

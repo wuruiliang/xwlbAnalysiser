@@ -51,4 +51,8 @@ public class XwlbWordModel extends BaseModel {
     return create().selectFrom(table).where(table.WORD.eq(word)).fetchOne();
   }
 
+  public List<XwlbWordRecord> getByWordList(List<String> wordList) {
+    return create().selectFrom(table).where(table.WORD.in(wordList)).fetch();
+  }
+
 }

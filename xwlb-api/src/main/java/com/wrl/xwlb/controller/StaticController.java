@@ -8,14 +8,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class StaticController {
 
   @RequestMapping("/newsKeywords")
-  public String newsKeyWords(@RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate) {
+  public String newsKeyWords(@RequestParam(required = false) String date,
+                             @RequestParam(required = false) String startDate,
+                             @RequestParam(required = false) String endDate) {
     return "/pages/news_key_words.html";
   }
 
   @RequestMapping("/newsText")
-  public String newsText(@RequestParam(name = "word") String word,
-                         @RequestParam(name = "startDate") String startDate,
-                         @RequestParam(name = "endDate") String endDate) {
+  public String newsText(@RequestParam String word,
+                         @RequestParam(required = false) String date,
+                         @RequestParam(required = false) String startDate,
+                         @RequestParam(required = false) String endDate) {
     return "/pages/news_text.html";
   }
 }
