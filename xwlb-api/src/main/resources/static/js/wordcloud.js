@@ -1,4 +1,5 @@
 let option = {};
+
 function initOption(keywords) {
     const data = [];
     for (const key in keywords) {
@@ -9,7 +10,7 @@ function initOption(keywords) {
     }
     option = {
         tooltip: {},
-        series: [ {
+        series: [{
             type: 'wordCloud',
             gridSize: 2,
             sizeRange: [12, 50],
@@ -34,7 +35,7 @@ function initOption(keywords) {
                 }
             },
             data: data
-        } ]
+        }]
     };
 }
 
@@ -43,16 +44,16 @@ function _initChart(data) {
     initOption(data);
     const myChart = echarts.init(document.getElementById('wordCloud'));
     myChart.setOption(option);
-    myChart.on('click', function(params){
+    myChart.on('click', function (params) {
         window.open("/newsText?word=" + params.data.name + "&" + window.location.search.substring(1), "_blank");
     });
-    window.onresize = function() {
+    window.onresize = function () {
         myChart.resize();
     }
 }
 
 function initChart() {
-    sent_request_sync("/news/keywords?" + window.location.search.substring(1), "GET", _initChart)
+    send_request_sync("/news/keywords?" + window.location.search.substring(1), "GET", _initChart)
 }
 
 

@@ -3,7 +3,8 @@
 <div id="box"></div>
 
 <script type="text/javascript">
-    sent_request_sync("/news/text?" + window.location.search.substring(1), "GET", render)
+    send_request_sync("/news/text?" + window.location.search.substring(1), "GET", render)
+
     function render(data) {
         for (let d of data) {
             const box = document.getElementById("box");
@@ -14,7 +15,7 @@
             const text = document.createElement("p");
             let text_string = d.text;
             const word = d.word;
-            text_string = text_string.replace(/\n/g, '<br/>').replace(new RegExp(word,'g'), '<b>' + word + '</b>');
+            text_string = text_string.replace(/\n/g, '<br/>').replace(new RegExp(word, 'g'), '<b>' + word + '</b>');
             text.innerHTML = text_string;
             box.appendChild(head)
             box.appendChild(text);

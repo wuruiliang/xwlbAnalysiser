@@ -1,20 +1,16 @@
 const status = {
     SUCCESS: 0
 }
-function sent_request_sync(url, method, callback) {
+
+function send_request_sync(url, method, callback) {
     let xmlhttp;
-    if (window.XMLHttpRequest)
-    {
-        xmlhttp=new XMLHttpRequest();
+    if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    else
-    {
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange=function()
-    {
-        if (xmlhttp.readyState===4 && xmlhttp.status===200)
-        {
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             if (callback) {
                 const data = JSON.parse(xmlhttp.responseText);
                 if (data.status.code !== status.SUCCESS) {
@@ -25,24 +21,19 @@ function sent_request_sync(url, method, callback) {
             }
         }
     }
-    xmlhttp.open(method,url,false);
+    xmlhttp.open(method, url, false);
     xmlhttp.send();
 }
 
-function sent_request_async(url, method, callback) {
+function send_request_async(url, method, callback) {
     let xmlhttp;
-    if (window.XMLHttpRequest)
-    {
-        xmlhttp=new XMLHttpRequest();
+    if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    else
-    {
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange=function()
-    {
-        if (xmlhttp.readyState===4 && xmlhttp.status===200)
-        {
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             if (callback) {
                 const data = JSON.parse(xmlhttp.responseText);
                 if (data.status.code !== status.SUCCESS) {
@@ -53,6 +44,6 @@ function sent_request_async(url, method, callback) {
             }
         }
     }
-    xmlhttp.open(method,url,true);
+    xmlhttp.open(method, url, true);
     xmlhttp.send();
 }
