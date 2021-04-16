@@ -23,7 +23,7 @@ public class CommonTransactionalAspect {
   public void annotationPointCut(){}
 
   @Around(value = "annotationPointCut()")
-  public Object Around(ProceedingJoinPoint joinPoint) {
+  public Object around(ProceedingJoinPoint joinPoint) {
     return threadTransactionalModel.transactionResult(configuration -> {
       try {
         return joinPoint.proceed(joinPoint.getArgs());
