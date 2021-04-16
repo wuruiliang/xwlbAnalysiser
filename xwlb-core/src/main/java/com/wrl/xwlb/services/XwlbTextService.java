@@ -84,7 +84,7 @@ public class XwlbTextService {
     List<TextVO> textVOS = new ArrayList<>();
     List<XwlbTextVO> xwlbTextVOS = getXwlbTextByWordAndDateRange(word, startDate, endDate);
     for (XwlbTextVO xwlbTextVO : xwlbTextVOS) {
-      List<String> texts = Arrays.stream(xwlbTextVO.getContent().split("\n")).collect(Collectors.toList());
+      List<String> texts = Arrays.stream(xwlbTextVO.getContent().split("\n")).filter(StringUtils::isNotBlank).collect(Collectors.toList());
       StringBuilder t = new StringBuilder();
       for (int i=0; i < texts.size(); i++) {
         String text = texts.get(i);
