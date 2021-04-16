@@ -4,6 +4,7 @@ import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.huaban.analysis.jieba.SegToken;
 import com.wrl.xwlb.model.XwlbTextModel;
 import com.wrl.xwlb.model.XwlbWordModel;
+import com.wrl.xwlb.model.generated.tables.records.XwlbTextRecord;
 import com.wrl.xwlb.model.generated.tables.records.XwlbWordRecord;
 import com.wrl.xwlb.services.VO.TextVO;
 import com.wrl.xwlb.services.VO.XwlbTextVO;
@@ -51,6 +52,7 @@ public class XwlbTextService {
         .map(Long::valueOf)
         .collect(Collectors.toList());
     return xwlbTextModel.getByIdsAndDateRange(ids, startDate, endDate).stream()
+        .sorted(Comparator.comparingLong(XwlbTextRecord::getDate).reversed())
         .map(XwlbTextVO::fromRecord)
         .collect(Collectors.toList());
   }
