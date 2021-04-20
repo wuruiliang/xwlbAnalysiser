@@ -4,3 +4,5 @@ xwlb:
     user: root
     password:
     name: xwlb
+  file:
+    dir: /Users/wuruiliang/Pictures/xwlb

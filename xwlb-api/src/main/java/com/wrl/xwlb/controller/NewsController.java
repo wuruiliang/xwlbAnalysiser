@@ -3,11 +3,13 @@ package com.wrl.xwlb.controller;
 import com.wrl.xwlb.common.exception.CommonException;
 import com.wrl.xwlb.common.exception.ExceptionType;
 import com.wrl.xwlb.common.mvc.CommonResponse;
+import com.wrl.xwlb.controller.Request.UpdatePicRequest;
 import com.wrl.xwlb.services.VO.TextVO;
 import com.wrl.xwlb.services.XwlbTextService;
 import com.wrl.xwlb.util.ClockUtil;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,4 +84,23 @@ public class NewsController {
     List<TextVO> textVOS = xwlbTextService.getTextByWordAndDateRange(StringEscapeUtils.unescapeHtml(word), start, end);
     return CommonResponse.of(textVOS);
   }
+
+  @RequestMapping("/uploadPics")
+  public CommonResponse uploadPics(@RequestBody UpdatePicRequest updatePicRequest,
+                                   @RequestParam(required = false) String date,
+                                   @RequestParam(required = false) String startDate,
+                                   @RequestParam(required = false) String endDate) {
+    long start;
+    long end;
+    if (date != null) {
+      start = ClockUtil.dateStringToLong(date, ClockUtil.DATE_FORMAT);
+      end = ClockUtil.dateStringToLong(date, ClockUtil.DATE_FORMAT);
+    } else {
+      start = ClockUtil.dateStringToLong(startDate, ClockUtil.DATE_FORMAT);
+      end = ClockUtil.dateStringToLong(endDate, ClockUtil.DATE_FORMAT);
+    }
+    xwlbTextService.savePics(updatePicRequest.getPicData().replace("data:image/png;base64,", ""), start, end);
+    return CommonResponse.success();
+  }
+
 }

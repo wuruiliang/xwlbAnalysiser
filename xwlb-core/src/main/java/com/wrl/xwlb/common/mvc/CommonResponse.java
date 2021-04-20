@@ -21,6 +21,14 @@ public class CommonResponse<T> {
     return new CommonResponse<>(body);
   }
 
+  public static CommonResponse success() {
+    return new CommonResponse<>();
+  }
+
+  public static CommonResponse failed() {
+    return new CommonResponse<>(ExceptionType.COMMON_CUSTOM_MESSAGE);
+  }
+
   public CommonResponse(CommonException e) {
     if (e.getErrorCode().getLevel() == ExceptionLevel.ERROR) {
       status = new ResponseStatus(ExceptionType.COMMON_SERVER_ERROR);

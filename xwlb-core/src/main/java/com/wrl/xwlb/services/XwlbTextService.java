@@ -9,11 +9,14 @@ import com.wrl.xwlb.model.generated.tables.records.XwlbWordRecord;
 import com.wrl.xwlb.services.VO.TextVO;
 import com.wrl.xwlb.services.VO.XwlbTextVO;
 import com.wrl.xwlb.util.ClockUtil;
+import com.wrl.xwlb.util.FileUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -27,6 +30,9 @@ public class XwlbTextService {
   @Autowired
   private XwlbWordModel xwlbWordModel;
 
+  @Value("${xwlb.file.dir}")
+  private String fileDir;
+
   Pattern pattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
 
   private static JiebaSegmenter jiebaSegmenter = null;
@@ -34,6 +40,15 @@ public class XwlbTextService {
   @Autowired
   public void XwlbTextService() {
     jiebaSegmenter = new JiebaSegmenter();
+  }
+
+  public void savePics(String base64Pic, long startDate, long endDate) {
+    String fileName = String.format("%s/xwlb_%s_to_%s.png", this.fileDir, ClockUtil.dateString(startDate), ClockUtil.dateString(endDate));
+    File file = new File(fileName);
+    if (file.exists()) {
+      return;
+    }
+    FileUtil.convertBase64ToImage(base64Pic, fileName);
   }
 
   public List<XwlbTextVO> getXwlbTexts(long startDate, long endDate) {
