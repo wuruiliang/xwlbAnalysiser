@@ -22,7 +22,7 @@ public class CommonResponse<T> {
   }
 
   public static CommonResponse success() {
-    return new CommonResponse<>();
+    return new CommonResponse<>("SUCCEED");
   }
 
   public static CommonResponse failed() {
