@@ -17,18 +17,18 @@ import javax.sql.DataSource;
 public class JooqConfiguration {
 
   @Autowired
-  MysqlConfig dbConfig;
+  MysqlProperties mysqlProperties;
 
   @Bean
   public DataSource dataSource() {
     DruidDataSource dataSource = new DruidDataSource();
-    dataSource.setUrl(dbConfig.getFullUrl());
-    dataSource.setUsername(dbConfig.getUserName());
-    dataSource.setPassword(dbConfig.getPassword());
-    dataSource.setInitialSize(dbConfig.getInitialSize());
-    dataSource.setMinIdle(dbConfig.getMinIdle());
-    dataSource.setMaxActive(dbConfig.getMaxActive());
-    dataSource.setMaxWait(dbConfig.getMaxWait());
+    dataSource.setUrl(mysqlProperties.getFullUrl());
+    dataSource.setUsername(mysqlProperties.getUser());
+    dataSource.setPassword(mysqlProperties.getPassword());
+    dataSource.setInitialSize(mysqlProperties.getInitialSize());
+    dataSource.setMinIdle(mysqlProperties.getMinIdle());
+    dataSource.setMaxActive(mysqlProperties.getMaxActive());
+    dataSource.setMaxWait(mysqlProperties.getMaxWait());
     return dataSource;
   }
 
