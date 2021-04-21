@@ -12,14 +12,14 @@ import java.util.concurrent.Executor;
 
 @Configuration
 public class QuartzConfiguration {
-  @Resource(name = "taskExecutor")
-  private Executor taskExecutor;
+  @Resource(name = "jobExecutor")
+  private Executor jobExecutor;
 
   @Bean("schedulerFactoryBean")
-  public SchedulerFactoryBean createFactoryBean(JobFactory jobFactory){
+  public SchedulerFactoryBean createFactoryBean(JobFactory jobFactory) {
     SchedulerFactoryBean factoryBean = new SchedulerFactoryBean();
     factoryBean.setJobFactory(jobFactory);
-    factoryBean.setTaskExecutor(taskExecutor);
+    factoryBean.setTaskExecutor(jobExecutor);
     factoryBean.setOverwriteExistingJobs(true);
     return factoryBean;
   }

@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class ExecutorConfiguration {
-  @Bean(name = "taskExecutor")
-  public Executor getAsyncExecutor() throws InterruptedException{
+  @Bean(name = "jobExecutor")
+  public Executor getAsyncExecutor() throws InterruptedException {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
     executor.setCorePoolSize(10);
     executor.setMaxPoolSize(30);

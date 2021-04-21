@@ -15,8 +15,11 @@ public class MyTestJob extends BaseJob {
   @Override
   public void execute(JobExecutionContext jobExecutionContext) {
     Param param = getParam(jobExecutionContext, Param.class);
-    log.info("name={}, param={}", jobExecutionContext.getJobDetail().getKey(), JsonUtil.toString(param));
-    log.info("job execute. " + ClockUtil.dateTimeStringFromTimestamp(ClockUtil.now()));
+
+    log.info("job execute. name={}, time={}, param={}",
+        jobExecutionContext.getJobDetail().getKey(),
+        ClockUtil.dateTimeStringFromTimestamp(ClockUtil.now()),
+        JsonUtil.toString(param));
   }
 
   @Data
