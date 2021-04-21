@@ -157,10 +157,7 @@ public class JobService {
    * @throws SchedulerConfigException
    */
   private void loadJob(String name) throws SchedulerConfigException {
-    JobConfigRecord record = jobConfigModel.findByNameAndStatus(name, JobStatus.USING);
-    if (record == null){
-      throw new SchedulerConfigException("未找到相关Job配置");
-    }
+    JobConfigRecord record = jobConfigModel.findByNameOrException(name);
     try {
       JobDetail jobDetail = getJobDetail(record);
       CronTrigger cronTrigger = getCronTrigger(record);
@@ -186,10 +183,9 @@ public class JobService {
    */
   private void reload(String name) throws ClassNotFoundException, SchedulerException {
     JobConfigRecord record = jobConfigModel.findByNameOrException(name);
-
     String jobCode = record.getName();
     // 获取以前的触发器
-    TriggerKey triggerKey = TriggerKey.triggerKey(jobCode);
+    TriggerKey triggerKey = TriggerKey.triggerKey(jobCode, DEFAULT_GROUP);
     // 停止触发器
     scheduler.pauseTrigger(triggerKey);
     // 删除触发器
@@ -205,24 +201,20 @@ public class JobService {
 
   //组装JobDetail
   private JobDetail getJobDetail(JobConfigRecord jobConfigRecord) throws ClassNotFoundException {
-    Class<? extends Job> aClass = Class.forName(jobConfigRecord.getClassName()).asSubclass(Job.class);
-
     return JobBuilder.newJob()
         .withIdentity(JobKey.jobKey(jobConfigRecord.getName(), DEFAULT_GROUP))
         .withDescription(jobConfigRecord.getDescription())
         .usingJobData(new JobDataMap(JsonUtil.fromOrException(jobConfigRecord.getParam(), new TypeReference<Map<?, ?>>() {})))
-        .ofType(aClass).build();
+        .ofType(Class.forName(jobConfigRecord.getClassName()).asSubclass(Job.class))
+        .build();
   }
 
   //组装CronTrigger
   private CronTrigger getCronTrigger(JobConfigRecord jobConfigRecord){
-    CronTrigger cronTrigger;
-    CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(jobConfigRecord.getCron());
-    cronTrigger = TriggerBuilder.newTrigger()
+    return TriggerBuilder.newTrigger()
         .withIdentity(TriggerKey.triggerKey(jobConfigRecord.getName(), DEFAULT_GROUP))
-        .withSchedule(cronScheduleBuilder)
+        .withSchedule(CronScheduleBuilder.cronSchedule(jobConfigRecord.getCron()))
         .build();
-    return cronTrigger;
   }
 
 }
