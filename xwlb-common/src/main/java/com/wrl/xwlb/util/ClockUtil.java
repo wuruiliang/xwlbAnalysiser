@@ -1,7 +1,6 @@
 package com.wrl.xwlb.util;
 
 import java.util.Calendar;
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeZone;
@@ -10,6 +9,7 @@ import org.joda.time.Hours;
 import org.joda.time.Minutes;
 import org.joda.time.Months;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.util.StringUtils;
 
 public class ClockUtil {
   public static String timezone = "Asia/Shanghai";
@@ -204,7 +204,7 @@ public class ClockUtil {
   }
 
   public static DateTime jodaDateTimeFromString(String dateStr) {
-    return StringUtils.isBlank(dateStr) ? null : date(Long.valueOf(dateStr));
+    return StringUtils.isEmpty(dateStr.trim()) ? null : date(Long.valueOf(dateStr));
   }
 
   public static String utcDateTimeStringFromTimestamp(Long timestamp) {

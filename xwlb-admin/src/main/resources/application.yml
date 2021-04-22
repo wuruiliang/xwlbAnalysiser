@@ -1,7 +1,15 @@
 server:
- port: 8090
+  port: 8090
 spring:
   application:
     name: xwlb-admin
   mvc:
     static-path-pattern: /**
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://localhost:8761/eureka

@@ -1,4 +1,4 @@
-package com.wrl.xwlb.common.transactional;
+package com.wrl.xwlb.configuration;
 
 import java.lang.annotation.*;
 

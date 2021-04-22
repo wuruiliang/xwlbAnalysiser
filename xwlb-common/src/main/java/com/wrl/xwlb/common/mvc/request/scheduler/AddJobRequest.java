@@ -1,4 +1,4 @@
-package com.wrl.xwlb.controller.request;
+package com.wrl.xwlb.common.mvc.request.scheduler;
 
 import lombok.Data;
 

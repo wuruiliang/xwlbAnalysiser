@@ -1,8 +1,8 @@
 package com.wrl.xwlb.common.exception;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -38,7 +38,7 @@ public class CommonException extends RuntimeException {
     super(message);
     try {
       this.errorCode = errorCode;
-      if (StringUtils.isNoneBlank(errorCode.getText())) {
+      if (!StringUtils.isEmpty(errorCode.getText().trim())) {
         this.message = String.format(errorCode.getText(), args);
       }
     } catch (Exception e) {

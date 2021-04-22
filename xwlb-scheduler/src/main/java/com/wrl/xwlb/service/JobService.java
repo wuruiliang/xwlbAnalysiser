@@ -3,7 +3,7 @@ package com.wrl.xwlb.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.wrl.xwlb.common.exception.CommonException;
 import com.wrl.xwlb.common.exception.ExceptionType;
-import com.wrl.xwlb.common.transactional.CommonTransactional;
+import com.wrl.xwlb.configuration.CommonTransactional;
 import com.wrl.xwlb.enums.JobStatus;
 import com.wrl.xwlb.model.JobConfigModel;
 import com.wrl.xwlb.model.generated.tables.records.JobConfigRecord;

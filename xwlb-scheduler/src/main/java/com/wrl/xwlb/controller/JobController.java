@@ -1,8 +1,8 @@
 package com.wrl.xwlb.controller;
 
 import com.wrl.xwlb.common.mvc.CommonResponse;
-import com.wrl.xwlb.controller.request.AddJobRequest;
-import com.wrl.xwlb.controller.request.TriggerJobRequest;
+import com.wrl.xwlb.common.mvc.request.scheduler.AddJobRequest;
+import com.wrl.xwlb.common.mvc.request.scheduler.TriggerJobRequest;
 import com.wrl.xwlb.service.JobService;
 import org.quartz.SchedulerConfigException;
 import org.quartz.SchedulerException;

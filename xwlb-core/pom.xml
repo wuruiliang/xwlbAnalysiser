@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>xwlbAnalysiser</artifactId>
-        <groupId>com.wrl.xwlb</groupId>
+        <groupId>com.wrl.xwlb.xwlb</groupId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
@@ -27,6 +27,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.wrl.xwlb.xwlb</groupId>
+            <artifactId>xwlb-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
         </dependency>
@@ -39,18 +45,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.squareup.retrofit2</groupId>
-            <artifactId>retrofit</artifactId>
-            <version>2.6.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.squareup.retrofit2</groupId>
-            <artifactId>converter-jackson</artifactId>
-            <version>2.6.0</version>
         </dependency>
 
         <dependency>
@@ -149,11 +143,6 @@
             <artifactId>jieba-analysis</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-joda</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -207,7 +196,7 @@
                         </database>
 
                         <target>
-                            <packageName>com.wrl.xwlb.model.generated</packageName>
+                            <packageName>com.wrl.xwlb.xwlb.model.generated</packageName>
                             <directory>src/main/java</directory>
                         </target>
                     </generator>
