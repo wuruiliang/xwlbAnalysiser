@@ -33,12 +33,19 @@ public class JobService {
   private static final String TEMP_GROUP = "TEMP";
 
   @CommonTransactional
-  public void addJob(String name, String className, String cron, String param, String desc) throws SchedulerConfigException {
+  public void addJob(String name, 
+                     String className,
+                     String cron,
+                     String param,
+                     String desc) throws SchedulerConfigException {
     if (StringUtils.isEmpty(param)) {
       param = "{}";
     }
+
     checkParam(className, cron, param);
+
     JobConfigRecord jobConfigRecord = jobConfigModel.init(name, className, cron, param, desc);
+
     loadJob(jobConfigRecord.getName());
   }
 
@@ -51,18 +58,21 @@ public class JobService {
       log.info("定时任务加载数据为空");
       return;
     }
+
     for (JobConfigRecord record : jobConfigRecords) {
       CronTrigger cronTrigger;
       JobDetail jobDetail;
+
       try {
         cronTrigger = getCronTrigger(record);
         jobDetail = getJobDetail(record);
         scheduler.scheduleJob(jobDetail, cronTrigger);
         log.info("名称：{} 定时任务加载成功", record.getName());
-      }catch (Exception e){
+      } catch (Exception e){
         log.error("名称：{} 定时任务加载失败", record.getName(), e);
       }
     }
+
     try {
       scheduler.start();
     } catch (SchedulerException e) {
@@ -79,11 +89,13 @@ public class JobService {
     if (StringUtils.isEmpty(param)) {
       param = "{}";
     }
+
     try {
       JsonUtil.fromOrException(param, Object.class);
     } catch (Exception e) {
       throw new CommonException(ExceptionType.COMMON_CUSTOM_MESSAGE, "param格式错误。");
     }
+
     tempTriggerJob(record, param);
   }
 
@@ -95,7 +107,9 @@ public class JobService {
   @CommonTransactional
   public void stopJob(String name) throws SchedulerException {
     JobConfigRecord record = jobConfigModel.findByNameOrException(name);
+
     unloadJob(name);
+
     jobConfigModel.updateStatus(record, JobStatus.STOPPED);
   }
 
@@ -107,7 +121,9 @@ public class JobService {
   @CommonTransactional
   public void restartJob(String name) throws SchedulerException, ClassNotFoundException {
     JobConfigRecord record = jobConfigModel.findByNameOrException(name);
+
     reload(name);
+
     jobConfigModel.updateStatus(record, JobStatus.USING);
   }
 
@@ -126,9 +142,11 @@ public class JobService {
     } catch (ClassNotFoundException ce) {
       throw new CommonException(ExceptionType.COMMON_CUSTOM_MESSAGE, "类名不存在。");
     }
+
     if(!CronExpression.isValidExpression(cron)) {
       throw new CommonException(ExceptionType.COMMON_CUSTOM_MESSAGE, "cron表达式错误。");
     }
+
     try {
       JsonUtil.fromOrException(param, Object.class);
     } catch (Exception e) {
@@ -138,16 +156,23 @@ public class JobService {
 
   private void tempTriggerJob(JobConfigRecord record, String param) throws ClassNotFoundException, SchedulerException {
     String jobCode = record.getName();
+
     JobDetail tempJobDetail = JobBuilder.newJob()
         .withIdentity(JobKey.jobKey(jobCode, TEMP_GROUP))
         .withDescription(record.getDescription())
         .usingJobData(new JobDataMap(JsonUtil.fromOrException(param, new TypeReference<Map<?, ?>>() {})))
         .ofType(Class.forName(record.getClassName()).asSubclass(Job.class)).build();
+
     Trigger trigger = TriggerBuilder.newTrigger().withIdentity(jobCode, TEMP_GROUP).build();
+
     scheduler.scheduleJob(tempJobDetail, trigger);
+
     scheduler.triggerJob(JobKey.jobKey(jobCode, TEMP_GROUP));
+
     scheduler.pauseTrigger(trigger.getKey());
+
     scheduler.unscheduleJob(trigger.getKey());
+
     scheduler.deleteJob(JobKey.jobKey(jobCode, TEMP_GROUP));
   }
 
@@ -158,6 +183,7 @@ public class JobService {
    */
   private void loadJob(String name) throws SchedulerConfigException {
     JobConfigRecord record = jobConfigModel.findByNameOrException(name);
+
     try {
       JobDetail jobDetail = getJobDetail(record);
       CronTrigger cronTrigger = getCronTrigger(record);
@@ -171,8 +197,10 @@ public class JobService {
   private void unloadJob(String name) throws SchedulerException {
     // 停止触发器
     scheduler.pauseTrigger(TriggerKey.triggerKey(name, DEFAULT_GROUP));
+
     // 卸载定时任务
     scheduler.unscheduleJob(TriggerKey.triggerKey(name, DEFAULT_GROUP));
+
     // 删除原来的job
     scheduler.deleteJob(JobKey.jobKey(name, DEFAULT_GROUP));
   }
@@ -183,18 +211,26 @@ public class JobService {
    */
   private void reload(String name) throws ClassNotFoundException, SchedulerException {
     JobConfigRecord record = jobConfigModel.findByNameOrException(name);
+
     String jobCode = record.getName();
+
     // 获取以前的触发器
     TriggerKey triggerKey = TriggerKey.triggerKey(jobCode, DEFAULT_GROUP);
+
     // 停止触发器
     scheduler.pauseTrigger(triggerKey);
+
     // 删除触发器
     scheduler.unscheduleJob(triggerKey);
+
     // 删除原来的job
     scheduler.deleteJob(JobKey.jobKey(jobCode));
 
+
     JobDetail jobDetail = getJobDetail(record);
+
     CronTrigger cronTrigger = getCronTrigger(record);
+
     // 重新加载job
     scheduler.scheduleJob(jobDetail, cronTrigger);
   }
@@ -204,7 +240,10 @@ public class JobService {
     return JobBuilder.newJob()
         .withIdentity(JobKey.jobKey(jobConfigRecord.getName(), DEFAULT_GROUP))
         .withDescription(jobConfigRecord.getDescription())
-        .usingJobData(new JobDataMap(JsonUtil.fromOrException(jobConfigRecord.getParam(), new TypeReference<Map<?, ?>>() {})))
+        .usingJobData(new JobDataMap(
+            JsonUtil.fromOrException(jobConfigRecord.getParam(),
+            new TypeReference<Map<?, ?>>() {})
+        ))
         .ofType(Class.forName(jobConfigRecord.getClassName()).asSubclass(Job.class))
         .build();
   }

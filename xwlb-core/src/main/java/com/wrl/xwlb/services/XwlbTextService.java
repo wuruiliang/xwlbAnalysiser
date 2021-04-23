@@ -43,20 +43,33 @@ public class XwlbTextService {
   }
 
   public void savePics(String base64Pic, long startDate, long endDate) {
-    String fileName = String.format("%s/xwlb_%s_to_%s.png", this.fileDir, ClockUtil.dateString(startDate), ClockUtil.dateString(endDate));
+    String fileName = String.format(
+        "%s/xwlb_%s_to_%s.png",
+        this.fileDir,
+        ClockUtil.dateString(startDate),
+        ClockUtil.dateString(endDate));
+
     File file = new File(fileName);
+
     if (file.exists()) {
       return;
     }
+
     FileUtil.convertBase64ToImage(base64Pic, fileName);
   }
 
   public List<XwlbTextVO> getXwlbTexts(long startDate, long endDate) {
-    return xwlbTextModel.getByDateRange(startDate, endDate).stream().map(XwlbTextVO::fromRecord).collect(Collectors.toList());
+    return xwlbTextModel.getByDateRange(startDate, endDate)
+        .stream()
+        .map(XwlbTextVO::fromRecord)
+        .collect(Collectors.toList());
   }
 
   public List<XwlbTextVO> getNotSegementedXwlbTexts(long startDate, long endDate) {
-    return xwlbTextModel.getByDateRange(startDate, endDate, false).stream().map(XwlbTextVO::fromRecord).collect(Collectors.toList());
+    return xwlbTextModel.getByDateRange(startDate, endDate, false)
+        .stream()
+        .map(XwlbTextVO::fromRecord)
+        .collect(Collectors.toList());
   }
 
   public Map<String, Integer> getXwlbKeywords(long startDate, long endDate) {
@@ -68,9 +81,11 @@ public class XwlbTextService {
     if (wordRecord == null) {
       return new ArrayList<>();
     }
+
     List<Long> ids = Arrays.stream(wordRecord.getTextIds().split(","))
         .map(Long::valueOf)
         .collect(Collectors.toList());
+
     return xwlbTextModel.getByIdsAndDateRange(ids, startDate, endDate).stream()
         .sorted(Comparator.comparingLong(XwlbTextRecord::getDate).reversed())
         .map(XwlbTextVO::fromRecord)
@@ -82,6 +97,7 @@ public class XwlbTextService {
     if (CollectionUtils.isEmpty(wordRecords)) {
       return new ArrayList<>();
     }
+
     List<Long> allIds = new ArrayList<>();
     for (XwlbWordRecord xwlbWordRecord : wordRecords) {
       List<Long> ids = Arrays.stream(xwlbWordRecord.getTextIds().split(","))
@@ -89,6 +105,7 @@ public class XwlbTextService {
           .collect(Collectors.toList());
       allIds.addAll(ids);
     }
+
     return xwlbTextModel.getByIdsAndDateRange(allIds, startDate, endDate).stream()
         .sorted(Comparator.comparingLong(XwlbTextRecord::getDate).reversed())
         .map(XwlbTextVO::fromRecord)
@@ -98,9 +115,13 @@ public class XwlbTextService {
   public List<TextVO> getTextByWordAndDateRange(String word, long startDate, long endDate) {
     List<TextVO> textVOS = new ArrayList<>();
     List<XwlbTextVO> xwlbTextVOS = getXwlbTextByWordAndDateRange(word, startDate, endDate);
+
     for (XwlbTextVO xwlbTextVO : xwlbTextVOS) {
-      List<String> texts = Arrays.stream(xwlbTextVO.getContent().split("\n")).filter(StringUtils::isNotBlank).collect(Collectors.toList());
+      List<String> texts = Arrays.stream(xwlbTextVO.getContent().split("\n"))
+          .filter(StringUtils::isNotBlank)
+          .collect(Collectors.toList());
       StringBuilder t = new StringBuilder();
+
       for (int i=0; i < texts.size(); i++) {
         String text = texts.get(i);
         if (text.contains(word)) {
@@ -112,6 +133,7 @@ public class XwlbTextService {
           t.append("\n\n");
         }
       }
+
       if (StringUtils.isNotBlank(t)) {
         textVOS.add(new TextVO(word, ClockUtil.dateStringChinese(xwlbTextVO.getDate()), t.toString()));
       }
@@ -122,9 +144,11 @@ public class XwlbTextService {
   public List<TextVO> getTextByWordListAndDateRange(List<String> wordList, long startDate, long endDate) {
     List<TextVO> textVOS = new ArrayList<>();
     List<XwlbTextVO> xwlbTextVOS = getXwlbTextByWordListAndDateRange(wordList, startDate, endDate);
+
     for (XwlbTextVO xwlbTextVO : xwlbTextVOS) {
       List<String> texts = Arrays.stream(xwlbTextVO.getContent().split("\n")).collect(Collectors.toList());
       StringBuilder t = new StringBuilder();
+
       for (int i=0; i < texts.size(); i++) {
         String text = texts.get(i);
         if (wordList.stream().anyMatch(text::contains)) {
@@ -136,6 +160,7 @@ public class XwlbTextService {
           t.append("\n\n");
         }
       }
+
       if (StringUtils.isNotBlank(t)) {
         textVOS.add(new TextVO(String.join(",", wordList), ClockUtil.dateStringChinese(xwlbTextVO.getDate()), t.toString()));
       }
@@ -151,12 +176,14 @@ public class XwlbTextService {
           .filter(s -> !getFilteredWords().contains(s.word) && isChinese(s.word) && s.word.length() > 1)
           .map(s -> s.word)
           .collect(Collectors.toList());
+
       for (String word : words) {
         resultMap.merge(word, 1, Integer::sum);
         if (!vo.getSegmented()) {
           xwlbWordModel.insertOrUpdate(word, vo.getId());
         }
       }
+
       xwlbTextModel.updateSegmented(vo.getId(), true);
     }
     return resultMap;
