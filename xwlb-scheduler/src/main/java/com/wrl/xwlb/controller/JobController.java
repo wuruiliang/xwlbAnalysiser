@@ -3,6 +3,7 @@ package com.wrl.xwlb.controller;
 import com.wrl.xwlb.common.mvc.CommonResponse;
 import com.wrl.xwlb.common.mvc.request.scheduler.AddJobRequest;
 import com.wrl.xwlb.common.mvc.request.scheduler.TriggerJobRequest;
+import com.wrl.xwlb.service.vo.JobVO;
 import com.wrl.xwlb.service.JobService;
 import org.quartz.SchedulerConfigException;
 import org.quartz.SchedulerException;
@@ -21,25 +22,37 @@ public class JobController {
 
   @RequestMapping("addJob")
   public CommonResponse addJob(@RequestBody AddJobRequest request) throws SchedulerConfigException {
-    jobService.addJob(request.getName(), request.getClassName(), request.getCron(), request.getParam(), request.getDesc());
+    jobService.addJob(JobVO.fromRequest(request));
+    return CommonResponse.success();
+  }
+
+  @RequestMapping("updateJob")
+  public CommonResponse updateJob(@RequestBody AddJobRequest request) throws SchedulerException {
+    jobService.reload(JobVO.fromRequest(request));
     return CommonResponse.success();
   }
 
   @RequestMapping("triggerJob")
-  public CommonResponse triggerJob(@RequestBody TriggerJobRequest request) throws ClassNotFoundException, SchedulerException {
+  public CommonResponse triggerJob(@RequestBody TriggerJobRequest request) throws SchedulerException {
     jobService.triggerJob(request.getName(), request.getParam());
     return CommonResponse.success();
   }
 
-  @RequestMapping("stopJob")
-  public CommonResponse stopJob(@RequestParam String name) throws SchedulerException {
-    jobService.stopJob(name);
+  @RequestMapping("pauseJob")
+  public CommonResponse pauseJob(@RequestParam String name) throws SchedulerException {
+    jobService.pauseJob(name);
     return CommonResponse.success();
   }
 
-  @RequestMapping("restartJob")
-  public CommonResponse restartJob(@RequestParam String name) throws SchedulerException, ClassNotFoundException {
-    jobService.restartJob(name);
+  @RequestMapping("resumeJob")
+  public CommonResponse resumeJob(@RequestParam String name) throws SchedulerException {
+    jobService.resumeJob(name);
+    return CommonResponse.success();
+  }
+
+  @RequestMapping("removeJob")
+  public CommonResponse removeJob(@RequestParam String name) throws SchedulerException {
+    jobService.unloadJob(name);
     return CommonResponse.success();
   }
 

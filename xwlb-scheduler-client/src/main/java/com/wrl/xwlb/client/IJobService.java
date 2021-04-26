@@ -15,13 +15,19 @@ public interface IJobService {
   @RequestMapping(value = "addJob", method = RequestMethod.POST)
   CommonResponse addJob(AddJobRequest request);
 
+  @RequestMapping(value = "updateJob", method = RequestMethod.POST)
+  CommonResponse updateJob(AddJobRequest request);
+
   @RequestMapping(value = "triggerJob", method = RequestMethod.POST)
   CommonResponse triggerJob(TriggerJobRequest request);
 
-  @RequestMapping(value = "stopJob", method = RequestMethod.GET)
-  CommonResponse stopJob(String name);
+  @RequestMapping(value = "pauseJob", method = RequestMethod.GET)
+  CommonResponse pauseJob(String name);
 
-  @RequestMapping(value = "restartJob", method = RequestMethod.GET)
-  CommonResponse restartJob(String name);
+  @RequestMapping(value = "resumeJob", method = RequestMethod.GET)
+  CommonResponse resumeJob(String name);
+
+  @RequestMapping(value = "removeJob", method = RequestMethod.GET)
+  CommonResponse removeJob(String name);
 
 }

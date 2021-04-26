@@ -19,19 +19,29 @@ public class SchedulerController {
     return jobService.addJob(request);
   }
 
+  @RequestMapping(value = "updateJob", method = RequestMethod.POST)
+  public CommonResponse updateJob(@RequestBody AddJobRequest request) {
+    return jobService.updateJob(request);
+  }
+
   @RequestMapping(value = "triggerJob", method = RequestMethod.POST)
   public CommonResponse triggerJob(@RequestBody TriggerJobRequest request) {
     return jobService.triggerJob(request);
   }
 
-  @RequestMapping("stopJob")
-  public CommonResponse stopJob(@RequestParam String name) {
-    return jobService.stopJob(name);
+  @RequestMapping("pauseJob")
+  public CommonResponse pauseJob(@RequestParam String name) {
+    return jobService.pauseJob(name);
   }
 
-  @RequestMapping("restartJob")
+  @RequestMapping("resumeJob")
   public CommonResponse restartJob(@RequestParam String name) {
-    return jobService.restartJob(name);
+    return jobService.resumeJob(name);
+  }
+
+  @RequestMapping("removeJob")
+  public CommonResponse removeJob(@RequestParam String name) {
+    return jobService.removeJob(name);
   }
 
 }

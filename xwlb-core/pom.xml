@@ -192,10 +192,13 @@
                         <database>
                             <inputSchema>${xwlb.db.name}</inputSchema>
                             <outputSchemaToDefault>true</outputSchemaToDefault>
+                            <includeExcludeColumns>true</includeExcludeColumns>
+                            <includes>.*</includes>
+                            <excludes></excludes>
                         </database>
 
                         <target>
-                            <packageName>com.wrl.xwlb.xwlb.model.generated</packageName>
+                            <packageName>com.wrl.xwlb.model.generated</packageName>
                             <directory>src/main/java</directory>
                         </target>
                     </generator>
