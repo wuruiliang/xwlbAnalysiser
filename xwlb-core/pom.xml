@@ -29,7 +29,6 @@
         <dependency>
             <groupId>com.wrl.xwlb.xwlb</groupId>
             <artifactId>xwlb-common</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

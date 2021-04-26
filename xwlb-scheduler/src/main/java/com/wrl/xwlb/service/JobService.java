@@ -33,7 +33,7 @@ public class JobService {
   private static final String TEMP_GROUP = "TEMP";
 
   @CommonTransactional
-  public void addJob(String name, 
+  public void addJob(String name,
                      String className,
                      String cron,
                      String param,
@@ -167,13 +167,13 @@ public class JobService {
 
     scheduler.scheduleJob(tempJobDetail, trigger);
 
-    scheduler.triggerJob(JobKey.jobKey(jobCode, TEMP_GROUP));
+//    scheduler.triggerJob(JobKey.jobKey(jobCode, TEMP_GROUP));
 
-    scheduler.pauseTrigger(trigger.getKey());
-
-    scheduler.unscheduleJob(trigger.getKey());
-
-    scheduler.deleteJob(JobKey.jobKey(jobCode, TEMP_GROUP));
+//    scheduler.pauseTrigger(trigger.getKey());
+//
+//    scheduler.unscheduleJob(trigger.getKey());
+//
+//    scheduler.deleteJob(JobKey.jobKey(jobCode, TEMP_GROUP));
   }
 
   /**
