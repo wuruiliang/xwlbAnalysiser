@@ -1,4 +1,4 @@
-package com.wrl.xwlb.config;
+package com.wrl.xwlb.client;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -33,11 +33,10 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import javax.annotation.PostConstruct;
 
 
-public class SchedulerFeignConfig {
+public class XwlbFeignConfig {
 
   private MappingJackson2HttpMessageConverter jsonConverter;
 
-  private static final String SERVICE_NAME = "xwlb-spider";
   private static final SetterFactory SETTER_FACTORY = new SetterFactory.Default();
   private static final int CUSTOM_CONNECT_TIMEOUT_MILLIS = 10000;
   private static final int CUSTOM_READ_TIMEOUT_MILLIS = 300000;
