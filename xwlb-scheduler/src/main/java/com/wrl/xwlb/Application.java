@@ -1,6 +1,6 @@
 package com.wrl.xwlb;
 
-import com.wrl.xwlb.service.JobService;
+import com.wrl.xwlb.service.impl.QuartzJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Application implements CommandLineRunner {
 
   @Autowired
-  private JobService jobService;
+  private QuartzJobService jobService;
 
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
