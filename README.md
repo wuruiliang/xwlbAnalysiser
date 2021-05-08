@@ -21,7 +21,7 @@
 `./start.sh -r xwlb-scheduler` 启动scheduler程序
 > 可异步进行建立分词索引的工作
 
-### Demo:
+### Demo Pictures:
 - 关键字云图：
 ![云图](./pics/demo1.png)
   
